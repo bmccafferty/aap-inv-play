@@ -1,0 +1,31 @@
+---
+- name: Create Inv
+  hosts: all
+  gather_facts: no
+  tasks:
+  - include_vars: ../vars/aap.yml
+
+  - name: Create Inv
+    ansible.controller.inventory:
+      name: "Auto Created Inv"
+      description: "Created Automaticly by Controller Collection"
+      organization: "Default"
+      state: present
+      controller_host: "{{ aap_host }}"
+      controller_username: "{{ aap_user }}"
+      controller_password: "{{ app_pass }}"
+      validate_certs: no 
+
+  - name: Add Host to Inv
+    ansible.controller.host:
+      name: ansible.lab.bdm.scot
+      description: "AAP Controller"
+      inventory: "Auto Created Inv"
+      state: present
+      variables:
+        imported_from: "Created Automaticly by Controller Collection"
+      controller_host: "{{ aap_host }}"
+      controller_username: "{{ aap_user }}"
+      controller_password: "{{ app_pass }}"
+      validate_certs: no
+
